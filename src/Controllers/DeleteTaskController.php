@@ -28,7 +28,7 @@ class DeleteTaskController extends Controller
             {
                 return $this->respondWithJson($response, ['message' => 'Task not found.'], 404);
             }
-            return $this->respondWithJson($response, ['message' => "Task successfully deleted"], 200);
+            return $response->withHeader('Location', '/tasks')->withStatus(302);
         }
         catch (\PDOException $exception) {
             return $this->respondWithJson($response, ['message' => $exception->getMessage()], 500);

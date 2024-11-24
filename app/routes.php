@@ -7,7 +7,6 @@ use App\Controllers\AddTaskController;
 use App\Controllers\DeleteTaskController;
 use Slim\App;
 use Slim\Views\PhpRenderer;
-use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -20,7 +19,7 @@ return function (App $app) {
     $app->get('/tasks', TasksController::class);
     $app->get('/tasks/{id}', TaskController::class);
     $app->post('/tasks', AddTaskController::class);
-    $app->delete('/tasks/{id}', DeleteTaskController::class);
+    $app->post('/tasks/{id}', DeleteTaskController::class);
     //put
 
 };

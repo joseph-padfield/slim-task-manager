@@ -3,41 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+          integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <title>Slim Task Manager</title>
+    <link rel="stylesheet" href="../css/styles.css"/>
 </head>
 
 <body>
 
-<header>
-
-</header>
-
 <main>
 
-    <h2>Tasks</h2>
+    <h1>Home page</h1>
 
-    <?php
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th></th>
+        </tr>
+        <?php
 
-    foreach($tasks as $task) {
-        echo '<div class="task">';
-        echo '<p>' . $task['title'] . '</p>';
-        echo '<p>' . $task['description'] . '</p>';
-        echo '<p>' . $task['due_date'] . '</p>';
-        echo '<p>' . $task['status'] . '</p>';
-        echo '<p>' . $task['created_at'] . '</p>';
-        echo '<p>' . $task['updated_at'] . '</p>';
-        echo '</div>';
-    }
+        foreach ($tasks as $task) {
+            echo '<tr>';
+            echo '<td>' . $task['title'] . '</td>';
+            echo '<td>' . $task['description'] . '</td>';
+            echo '<td>' . $task['due_date'] . '</td>';
+            echo '<td>' . $task['status'] . '</td>';
+            echo '<td>' . $task['created_at'] . '</td>';
+            echo '<td>' . $task['updated_at'] . '</td>';
 
-    ?>
+            $taskId = $task['id'];
+            echo '<td class="button-cell">
+
+            <form method="post" action="/tasks/' . $taskId . '">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit">Delete</button>
+            </form>
+                
+            <button>Edit</button></td>';
+
+            echo '</tr>';
+        }
+
+        ?>
+    </table>
+
+    <form method="post">
+        <label for="title">Title</label>
+        <input name="title" id="title" type="text"/>
+        <label for="description">Description</label>
+        <input name="description" id="description" type="text"/>
+        <input type="submit">
+    </form>
 
 </main>
-
-<footer>
-
-</footer>
 
 </body>
 

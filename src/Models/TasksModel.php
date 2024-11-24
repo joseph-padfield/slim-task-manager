@@ -42,7 +42,8 @@ class TasksModel
             $query = $this->db->prepare($sql);
             $query->bindValue(':id', $id, PDO::PARAM_INT);
             $query->execute();
-            return $query->fetch(PDO::FETCH_ASSOC);
+            $task = $query->fetch(PDO::FETCH_ASSOC);
+            return $task ? $task : [];
         }
         catch (PDOException $e)
         {
