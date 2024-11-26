@@ -63,7 +63,7 @@ class TasksModel
 
             if (isset($newTask['due-date']))
             {
-                $query->bindValue(':dueDate', $newTask['due-date'], PDO::PARAM_STR);
+                $query->bindValue(':dueDate', $newTask['due_date'], PDO::PARAM_STR);
             }
             else
             {
@@ -94,6 +94,25 @@ class TasksModel
         catch (\PDOException $e)
         {
             error_log("Error deleting task: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function editTask($task)
+    {
+        $sql = 'UPDATE tasks SET `title` = :title, 
+                 `description` = :description
+             WHERE `id` = :id';
+        try
+        {
+            $query = $this->db->prepare($sql);
+            $query->bindValue(':id', $task['id'], PDO::PARAM_INT);
+            $query->bindValue(':title', $task['title']);
+            $query->bindValue(':description', $task['description']);
+            return $query->execute();
+        } catch (PDOException $e)
+        {
+            error_log("Error editing task: " . $e->getMessage());
             return false;
         }
     }

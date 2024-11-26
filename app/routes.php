@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Controllers\EditTaskController;
 use App\Controllers\TasksController;
 use App\Controllers\TaskController;
 use App\Controllers\AddTaskController;
@@ -20,6 +21,6 @@ return function (App $app) {
     $app->get('/tasks/{id}', TaskController::class);
     $app->post('/tasks', AddTaskController::class);
     $app->post('/tasks/{id}', DeleteTaskController::class);
-    //put
+    $app->put('/editTask/{id}', EditTaskController::class);
 
 };

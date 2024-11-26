@@ -27,8 +27,8 @@ class TaskController extends Controller
                 return $this->respondWithJson($response, ['message' => 'Task not found.'], 200);
             }
             return $this->respondWithJson($response, $task);
-        } catch (\PDOException $exception) {
-            return $this->respondWithJson($response, ['message' => $exception->getMessage()]);
+        } catch (\PDOException $e) {
+            return $this->respondWithJson($response, ['message' => $e->getMessage()]);
         }
     }
 }

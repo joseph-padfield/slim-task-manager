@@ -36,8 +36,8 @@ class AddTaskController extends Controller
                 return $this->respondWithJson($response, ['message' => 'Failed to create task'], 500);
             }
 
-        } catch (\Exception $exception) {
-            return $this->respondWithJson($response, ['message' => $exception->getMessage()], 500);
+        } catch (\Exception $e) {
+            return $this->respondWithJson($response, ['message' => $e->getMessage()], 500);
         }
     }
 }

@@ -31,8 +31,8 @@ class TasksController extends Controller
             }
             return $this->renderer->render($response, 'tasks.phtml', ['tasks' => $tasks]);
 
-        } catch (\PDOException $exception) {
-            return $this->respondWithJson($response, ['message' => $exception->getMessage()], 500, 500);
+        } catch (\PDOException $e) {
+            return $this->respondWithJson($response, ['message' => $e->getMessage()], 500, 500);
         }
     }
 }
