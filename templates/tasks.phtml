@@ -38,24 +38,34 @@
             echo '<td>' . $task['updated_at'] . '</td>';
 
             $taskId = $task['id'];
-            echo '<td class="button-cell">
 
-            <form method="post" action="/tasks/' . $taskId . '">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit">Delete</button>
-            </form>
-                
-            <button><a href="#editDialog" onclick="document.getElementById(`editDialog`).showModal()">Edit</a></button>
-            
-            <dialog id="editDialog">
-            <h2>EDIT DIALOG</h2>
-            <form method="dialog">
-                <button>Close</button>
-</form>
-</dialog>
-            
-            
-            ';
+            echo '<td class="button-cell">';
+            echo '<form method="post" action ="/tasks/' . $taskId . '">';
+            echo '<input type="hidden" name="_method" value="DELETE">';
+            echo '<button type="submit">Delete</button>';
+            echo '</form>';
+
+            echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()">Edit</button>';
+
+            echo '<dialog id="editDialog_' . $taskId .'">';
+            echo '<h2>Edit Task</h2>';
+            echo '<form method="post" action ="/editTask/' . $taskId . '">';
+            echo '<label for="title_' . $taskId . '">Title</label>';
+            echo '<input type="text" name="title" id="title_' . $taskId . '" value="' . $task['title'] . '">';
+            echo '<label for="description_' . $taskId . '">Description</label>';
+            echo '<input type="text" name="description" id="description_' . $taskId . '" value="' . $task['description'] . '">';
+            echo '<label for="due_date_' . $taskId . '">Date due</label>';
+            echo '<input type="text" name="due_date" id="due_date_' . $taskId . '" value="' . $task['due_date'] . '">';
+            echo '<button type="submit">Save</button>';
+            echo '</form>';
+            echo '<form method="dialog">';
+            echo '<button>Close</button>';
+            echo '</form>';
+            echo '</dialog>';
+            echo '</td>';
+
+
+
 
             echo '</tr>';
         }

@@ -24,9 +24,9 @@ class EditTaskController extends Controller
         try
         {
             $task = $request->getParsedBody();
-            var_dump($task);
+            $task['id'] = (int)$args['id'];
             $this->model->editTask($task);
-            return $response->withHeader('Location', '/tasks/' . $args['id'])->withStatus(302);
+            return $response->withHeader('Location', '/tasks')->withStatus(303);
         } catch (PDOException $e)
         {
             return $this->respondWithJson($response, ['message' => $e->getMessage()], 500);

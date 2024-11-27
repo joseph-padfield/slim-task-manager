@@ -26,9 +26,6 @@ class TasksController extends Controller
         try {
             $tasks = $this->model->getTasks();
 
-            if (empty($tasks)) {
-                return $this->respondWithJson($response, ['message' => 'No tasks found.'], 200);
-            }
             return $this->renderer->render($response, 'tasks.phtml', ['tasks' => $tasks]);
 
         } catch (\PDOException $e) {
