@@ -21,6 +21,6 @@ return function (App $app) {
     $app->get('/tasks/{id}', TaskController::class);
     $app->post('/tasks', AddTaskController::class);
     $app->post('/tasks/{id}', DeleteTaskController::class);
-    $app->put('/editTask/{id}', EditTaskController::class);
+    $app->post('/editTask/{id}', EditTaskController::class);
 
 };
