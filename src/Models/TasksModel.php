@@ -54,12 +54,14 @@ class TasksModel
 
     public function addTask(array $newTask)
     {
-        $sql = 'INSERT INTO tasks (title, description, due_date) VALUES (:title, :description, :dueDate)';
+        $current_time = date("Y-m-d H:i:s");
+        $sql = 'INSERT INTO tasks (title, description, due_date, created_at) VALUES (:title, :description, :dueDate, :createdAt)';
         try
         {
             $query = $this->db->prepare($sql);
             $query->bindValue(':title', $newTask['title'], PDO::PARAM_STR);
             $query->bindValue(':description', $newTask['description'], PDO::PARAM_STR);
+            $query->bindValue(':createdAt', $current_time, PDO::PARAM_STR);
 
             if (isset($newTask['due-date']))
             {
@@ -100,8 +102,10 @@ class TasksModel
 
     public function editTask($task)
     {
+        $current_time = date("Y-m-d H:i:s");
         $sql = 'UPDATE tasks SET `title` = :title, 
-                 `description` = :description
+                 `description` = :description,
+                 updated_at = :updatedAt
              WHERE `id` = :id';
         try
         {
@@ -109,6 +113,7 @@ class TasksModel
             $query->bindValue(':id', $task['id'], PDO::PARAM_INT);
             $query->bindValue(':title', $task['title']);
             $query->bindValue(':description', $task['description']);
+            $query->bindValue(':updatedAt', $current_time);
             return $query->execute();
         } catch (PDOException $e)
         {

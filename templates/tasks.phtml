@@ -27,15 +27,16 @@
             <th></th>
         </tr>
         <?php
-
         foreach ($tasks as $task) {
+            $created_at = new DateTime($task['created_at']);
+            $updated_at = new DateTime($task['updated_at']);
             echo '<tr>';
             echo '<td>' . $task['title'] . '</td>';
             echo '<td>' . $task['description'] . '</td>';
             echo '<td>' . $task['due_date'] . '</td>';
             echo '<td>' . $task['status'] . '</td>';
-            echo '<td>' . $task['created_at'] . '</td>';
-            echo '<td>' . $task['updated_at'] . '</td>';
+            echo '<td>' . $created_at->format('d/m/y H:i') . '</td>';
+            echo '<td>' . $updated_at->format('d/m/y H:i') . '</td>';
 
             $taskId = $task['id'];
 
@@ -46,6 +47,7 @@
             echo '</form>';
 
             echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()">Edit</button>';
+            echo '<button>✓</button>';
 
             echo '<dialog id="editDialog_' . $taskId .'">';
             echo '<h2>Edit Task</h2>';
@@ -63,10 +65,6 @@
             echo '</form>';
             echo '</dialog>';
             echo '</td>';
-
-
-
-
             echo '</tr>';
         }
 
