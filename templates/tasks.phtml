@@ -7,47 +7,51 @@
           integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <title>Slim Task Manager</title>
-    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="../css/output.css"/>
 </head>
 
-<body>
+<body class="p-10 bg-background">
 
 <main>
 
-    <h1>Home</h1>
+    <h1 class="text-center text-2xl text-orange-400 font-bold p-2">Slim Task-Manager</h1>
 
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Status</th>
-            <th>Created</th>
-            <th>Updated</th>
-            <th></th>
+    <form method="post" class="flex flex-col gap-2 mb-2 items-center">
+        <input name="title" id="title" type="text" autofocus class="rounded-3xl h-5 text-xs p-2"
+        placeholder="Enter task..."/>
+<!--        <label for="description" class="text-amber-50 text-xs text-center">Description</label>-->
+<!--        <input name="description" id="description" type="text" class="rounded-3xl h-5 text-xs p-1"/>-->
+        <input type="submit" class="bg-blue-50 rounded-lg py-0.5 px-2 text-xs w-14 ">
+    </form>
+
+    <table class="border-2 drop-shadow-lg">
+        <tr class="bg-amber-300/80">
+            <th class="p-1 border-2  border-solid text-left text-xs">Title</th>
+<!--            <th class="p-1 border-2  border-solid text-left text-xs">Status</th>-->
+            <th class="p-1 border-2  border-solid text-left text-xs">Created</th>
+<!--            <th class="p-1 border-2  border-solid text-left text-xs">Updated</th>-->
+            <th class="p-1 border-2  border-solid text-left text-xs">Actions</th>
         </tr>
         <?php
         foreach ($tasks as $task) {
             $created_at = new DateTime($task['created_at']);
             $updated_at = new DateTime($task['updated_at']);
-            echo '<tr>';
-            echo '<td>' . $task['title'] . '</td>';
-            echo '<td>' . $task['description'] . '</td>';
-            echo '<td>' . $task['due_date'] . '</td>';
-            echo '<td>' . $task['status'] . '</td>';
-            echo '<td>' . $created_at->format('d/m/y H:i') . '</td>';
-            echo '<td>' . $updated_at->format('d/m/y H:i') . '</td>';
+            echo '<tr class="border  border-solid p-2 bg-slate-500/75 text-amber-50 text-xs">';
+            echo '<td class="font-bold border  border-solid p-2 text-xs">' . $task['title'] . '</td>';
+//            echo '<td class="border  border-solid p-2 text-xs">' . $task['status'] . '</td>';
+            echo '<td class="border  border-solid p-2 text-xs">' . $created_at->format('d/m/y') . '</td>';
+//            echo '<td class="border  border-solid p-2 text-xs">' . $updated_at->format('d/m/y') . '</td>';
 
             $taskId = $task['id'];
 
-            echo '<td class="button-cell">';
+            echo '<td class="button-cell text-black flex gap-2 p-2 h-full content-center">';
             echo '<form method="post" action ="/tasks/' . $taskId . '">';
             echo '<input type="hidden" name="_method" value="DELETE">';
-            echo '<button type="submit">Delete</button>';
+            echo '<button type="submit" class="rounded-md bg-red-300 p-1 drop-shadow-md">✘</button>';
             echo '</form>';
 
-            echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()">Edit</button>';
-            echo '<button>✓</button>';
+            echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()" class="rounded-md bg-blue-300 p-1 drop-shadow-md">✎</button>';
+            echo '<button class="rounded-md bg-green-300 p-1 drop-shadow-md">✔</button>';
 
             echo '<dialog id="editDialog_' . $taskId .'">';
             echo '<h2>Edit Task</h2>';
@@ -71,13 +75,7 @@
         ?>
     </table>
 
-    <form method="post">
-        <label for="title">Title</label>
-        <input name="title" id="title" type="text" autofocus/>
-        <label for="description">Description</label>
-        <input name="description" id="description" type="text"/>
-        <input type="submit">
-    </form>
+
 
 </main>
 

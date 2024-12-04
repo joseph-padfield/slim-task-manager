@@ -55,12 +55,11 @@ class TasksModel
     public function addTask(array $newTask)
     {
         $current_time = date("Y-m-d H:i:s");
-        $sql = 'INSERT INTO tasks (title, description, due_date, created_at) VALUES (:title, :description, :dueDate, :createdAt)';
+        $sql = 'INSERT INTO tasks (title, due_date, created_at) VALUES (:title, :dueDate, :createdAt)';
         try
         {
             $query = $this->db->prepare($sql);
             $query->bindValue(':title', $newTask['title'], PDO::PARAM_STR);
-            $query->bindValue(':description', $newTask['description'], PDO::PARAM_STR);
             $query->bindValue(':createdAt', $current_time, PDO::PARAM_STR);
 
             if (isset($newTask['due-date']))
