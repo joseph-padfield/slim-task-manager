@@ -7,76 +7,89 @@
           integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <title>Slim Task Manager</title>
-    <link rel="stylesheet" href="../css/output.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <script defer src="script.js"></script>
 </head>
 
-<body class="p-10 bg-background">
+<body>
 
+<header>
+    <h1>Slim Task Manager App</h1>
+    <p>a Jo Padfield Production</p>
+</header>
 <main>
-
-    <h1 class="text-center text-2xl text-orange-400 font-bold p-2">Slim Task-Manager</h1>
-
-    <form method="post" class="flex flex-col gap-2 mb-2 items-center">
-        <input name="title" id="title" type="text" autofocus class="rounded-3xl h-5 text-xs p-2"
-        placeholder="Enter task..."/>
-<!--        <label for="description" class="text-amber-50 text-xs text-center">Description</label>-->
-<!--        <input name="description" id="description" type="text" class="rounded-3xl h-5 text-xs p-1"/>-->
-        <input type="submit" class="bg-blue-50 rounded-lg py-0.5 px-2 text-xs w-14 ">
-    </form>
-
-    <table class="border-2 drop-shadow-lg">
-        <tr class="bg-amber-300/80">
-            <th class="p-1 border-2  border-solid text-left text-xs">Title</th>
-<!--            <th class="p-1 border-2  border-solid text-left text-xs">Status</th>-->
-            <th class="p-1 border-2  border-solid text-left text-xs">Created</th>
-<!--            <th class="p-1 border-2  border-solid text-left text-xs">Updated</th>-->
-            <th class="p-1 border-2  border-solid text-left text-xs">Actions</th>
-        </tr>
-        <?php
-        foreach ($tasks as $task) {
-            $created_at = new DateTime($task['created_at']);
-            $updated_at = new DateTime($task['updated_at']);
-            echo '<tr class="border  border-solid p-2 bg-slate-500/75 text-amber-50 text-xs">';
-            echo '<td class="font-bold border  border-solid p-2 text-xs">' . $task['title'] . '</td>';
-//            echo '<td class="border  border-solid p-2 text-xs">' . $task['status'] . '</td>';
-            echo '<td class="border  border-solid p-2 text-xs">' . $created_at->format('d/m/y') . '</td>';
-//            echo '<td class="border  border-solid p-2 text-xs">' . $updated_at->format('d/m/y') . '</td>';
-
-            $taskId = $task['id'];
-
-            echo '<td class="button-cell text-black flex gap-2 p-2 h-full content-center">';
-            echo '<form method="post" action ="/tasks/' . $taskId . '">';
-            echo '<input type="hidden" name="_method" value="DELETE">';
-            echo '<button type="submit" class="rounded-md bg-red-300 p-1 drop-shadow-md">✘</button>';
-            echo '</form>';
-
-            echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()" class="rounded-md bg-blue-300 p-1 drop-shadow-md">✎</button>';
-            echo '<button class="rounded-md bg-green-300 p-1 drop-shadow-md">✔</button>';
-
-            echo '<dialog id="editDialog_' . $taskId .'">';
-            echo '<h2>Edit Task</h2>';
-            echo '<form method="post" action ="/editTask/' . $taskId . '">';
-            echo '<label for="title_' . $taskId . '">Title</label>';
-            echo '<input type="text" name="title" id="title_' . $taskId . '" value="' . $task['title'] . '">';
-            echo '<label for="description_' . $taskId . '">Description</label>';
-            echo '<input type="text" name="description" id="description_' . $taskId . '" value="' . $task['description'] . '">';
-            echo '<label for="due_date_' . $taskId . '">Date due</label>';
-            echo '<input type="text" name="due_date" id="due_date_' . $taskId . '" value="' . $task['due_date'] . '">';
-            echo '<button type="submit">Save</button>';
-            echo '</form>';
-            echo '<form method="dialog">';
-            echo '<button>Close</button>';
-            echo '</form>';
-            echo '</dialog>';
-            echo '</td>';
-            echo '</tr>';
-        }
-
-        ?>
-    </table>
+    <section class="new-task-section">
+        <button id="new-task-button">New task</button>
+        <div class="new-task-form hidden">
+            <form method="post">
+                <label for="title">Title</label>
+                <input name="title" id="title"/>
+                <label for="description">Description</label>
+                <input name="description" id="description"/>
+                <div class="new-task-buttons">
+                    <button>Close</button>
+                    <input type="submit" class="input-button"/>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="task-display-section">
+        <table>
+            <tr class="table-headings">
+                <th class="title-field">Title</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+            <?php
 
 
+            foreach ($tasks as $task) {
+                $taskId = $task['id'];
+                $created_at = new DateTime($task['created_at']);
+                $updated_at = new DateTime($task['updated_at']);
+                echo '<tr>';
+                echo '<td class="task-table-title-field" id="title_' . $taskId . '">' . $task['title'] . '</td>';
+                echo '<td>' . $task['status'] . '</td>';
+                echo '<td>' . $created_at->format('d/m/y') . '</td>';
+                echo '<td>' . $updated_at->format('d/m/y') . '</td>';
 
+                echo '<td class="action-field">';
+                echo '<form method="post" action ="/tasks/' . $taskId . '">';
+                echo '<input type="hidden" name="_method" value="DELETE">';
+                echo '<button type="submit">✘</button>';
+                echo '</form>';
+
+                echo '<button type="button" onclick="document.getElementById(\'editDialog_' . $taskId . '\').showModal()">✎</button>';
+                echo '<button>✔</button>';
+
+                echo '<dialog id="editDialog_' . $taskId .'" class="edit-task-container">';
+                echo '<h2>Edit Task</h2>';
+                echo '<form method="post" action ="/editTask/' . $taskId . '" class="edit-task-form">';
+                echo '<label for="title_' . $taskId . '">Title</label>';
+                echo '<input type="text" name="title" id="title_' . $taskId . '" value="' . $task['title'] . '">';
+                echo '<label for="description_' . $taskId . '">Description</label>';
+                echo '<textarea type="text" name="description" id="description_' . $taskId . '" value="' .
+                    $task['description'] . '"  class="edit-description-input">' .
+                    $task['description'] . '</textarea>';
+                echo '<label for="due_date_' . $taskId . '">Date due</label>';
+                echo '<input type="text" name="due_date" id="due_date_' . $taskId . '" value="' . $task['due_date'] . '">';
+                echo "<div class='edit-form-buttons-container'>";
+                echo '<button type="submit">Save</button>';
+                echo '</form>';
+                echo '<form method="dialog">';
+                echo '<button type="button" onclick="closeEditContainer(' . $taskId . ', \'' . $task['title'] . '\'' .', \'' . $task['description'] . '\')" class="edit-close-button">Close</button>';
+                echo "</div>";
+                echo '</form>';
+                echo '</dialog>';
+                echo '</td>';
+                echo '</tr>';
+            }
+
+            ?>
+        </table>
+    </section>
 </main>
 
 </body>
